@@ -1,24 +1,35 @@
 #include <ncurses.h>
+#include "editor.h"
 
 #define WORLD_WIDTH 50
 #define WORLD_HEIGHT 20
 
-int main(int argc, char* argv[]) {
-    WINDOW *win;
-    int offsetx, offsety;
+void ncurses_setup() {
     initscr();
+    noecho();
     raw();
     keypad(stdscr, TRUE);
+}
+
+int main(int argc, char* argv[]) {
+    Editor ed;
+    string fn = "";
+    if(argc > 1) {
+         fn = string(argv[1]);
+         ed = Editor(fn);
+    }
+    else {
+         ed = Editor();
+    }
+    ncurses_setup();
+    while(ed.getMode() != 'x') {
+         ed.updateStatus();
+         ed.printStatusLine();
+         ed.printBuff();
+         int input = getch();
+         ed.handleInput(input);
+    }
     refresh();
-    offsetx = (COLS - WORLD_WIDTH) / 2;
-    offsety = (LINES - WORLD_HEIGHT) / 2;
-    win = newwin(WORLD_HEIGHT, WORLD_WIDTH, offsety, offsetx);
-    box(win, 0, 0);
-    wrefresh(win);
-    printw("Hello worlds");
-    wrefresh(win);
-    getch();
-    delwin(win);
     endwin();
     return 0;
 }
