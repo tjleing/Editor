@@ -46,7 +46,7 @@ void Editor::updateStatus() {
             status = "Exiting...";
             break;
     }
-    status += "\tCOL: " + to_string(x) + "\tROW: " + to_string(y);
+    status += "\tCOL: " + to_string(x) + "\tROW: " + to_string(y) + "\tDEBUG: " + to_string((buff->lines).size());
 }
 
 void Editor::handleInput(int c) {
@@ -168,7 +168,7 @@ void Editor::moveLeft() {
 }
 
 void Editor::moveRight() {
-    if(x+1 < COLS && x+1 <= buff->lines[y].length()) {
+    if(x+1 < COLS && x+1 <= buff->lines[wy+y].length()) {
         x++;
         move(y,x);
     }
@@ -179,30 +179,45 @@ void Editor::moveUp() {
     if(y-1 >= 0) {
         y--;
     }
-    if(x >= buff->lines[y].length()) {
-        x = buff->lines[y].length();
+    if(y-1 == 0 && wy != 0) {
+        scrollUp();
+    }
+    if(x >= buff->lines[y+wy].length()) {
+        x = buff->lines[y+wy].length();
     }
     move(y, x);
 }
 
 void Editor::moveDown() {
-    if(y+1 < LINES-1 && y+1 < buff->lines.size()) {
+    if(y+1 < buff->lines.size()) {
+        if(y+1 > LINES-1) {
+            scrollDown();
+        }
         y++;
     }
-    if(x >= buff->lines[y].length()) {
-        x = buff->lines[y].length();
+    if(x >= buff->lines[y+wy].length()) {
+        x = buff->lines[y+wy].length();
     }
     move(y, x);
 }
 
+void Editor::scrollUp() {
+    wy--;
+}
+
+void Editor::scrollDown() {
+    wy++;
+}
+
+
 void Editor::printBuff() {
-    for(int i = 0; i<LINES-1; ++i) {
+    for(int i = wy; i<LINES-1+wy; ++i) {
         if(i >= buff->lines.size()) {
             move(i, 0);
             clrtoeol();
         }
         else {
-            mvprintw(i, 0, buff->lines[i].c_str());
+            mvprintw(i-wy, 0, buff->lines[i].c_str());
         }
         clrtoeol();
     }
