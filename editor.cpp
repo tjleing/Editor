@@ -5,7 +5,7 @@
 #include <sstream>
 
 Editor::Editor() {
-    x = 0;y = 0;wx = 0;wy = 0;mode = 'n';
+    x = 0;y = 0;wx = 1;wy = 1;mode = 'n';
     status = "Normal Mode";
     filename = "untitled";
 
@@ -14,7 +14,7 @@ Editor::Editor() {
 }
 
 Editor::Editor(string fn) {
-    x = 0; y = 0;wx = 0;wy = 0;mode = 'n';
+    x = 0;y = 0;wx = 1;wy = 1;mode = 'n';
     status = "Normal Mode";
     filename = fn;
 
@@ -46,7 +46,7 @@ void Editor::updateStatus() {
             status = "Exiting...";
             break;
     }
-    status += "\tCOL: " + to_string(x) + "\tROW: " + to_string(y) + "\tDEBUG: " + to_string((buff->lines).size());
+    status += "\tCOL: " + to_string(wx+x) + "\tROW: " + to_string(wy+y) + "\tDEBUG: " + to_string((buff->lines).size());
 }
 
 void Editor::handleInput(int c) {
@@ -179,7 +179,7 @@ void Editor::moveUp() {
     if(y-1 >= 0) {
         y--;
     }
-    if(y-1 == 0 && wy != 0) {
+    if(y == 0 && wy != 0) {
         scrollUp();
     }
     if(x >= buff->lines[y+wy].length()) {
@@ -190,10 +190,12 @@ void Editor::moveUp() {
 
 void Editor::moveDown() {
     if(y+1 < buff->lines.size()) {
-        if(y+1 > LINES-1) {
+        if(y+1 > LINES-2) {
             scrollDown();
         }
-        y++;
+        else {
+            y++;
+        }
     }
     if(x >= buff->lines[y+wy].length()) {
         x = buff->lines[y+wy].length();
