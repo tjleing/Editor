@@ -19,6 +19,8 @@ class Editor {
 
         void scrollUp();
         void scrollDown();
+        void scrollLeft();
+        void scrollRight();
 
         void deleteLine();
         void deleteLine(int);
@@ -37,4 +39,5 @@ class Editor {
 };
 
 #endif
+
 
