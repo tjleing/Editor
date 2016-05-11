@@ -129,7 +129,7 @@ void Editor::handleInput(int c) {
     case 10:
       // The enter key
       // bring the rest of the line down
-      if(x < buff->lines[y].length()) {
+      if(x < (int)buff->lines[y].length()) {
         // rest of the line on a new line
         buff->insertLine(buff->lines[y].substr(x, buff->lines[y].length() - x), y + 1);
         // remove that part of the line
@@ -206,7 +206,7 @@ void Editor::moveUp() {
 }
 
 void Editor::moveDown() {
-  if(wy+y+1 < buff->lines.size()) {
+  if(wy+y+1 < (int)buff->lines.size()) {
     if(y+1 > LINES-2) {
       scrollDown();
     }
@@ -265,7 +265,7 @@ void Editor::saveFile() {
   }
   ofstream f(filename.c_str());
   if(f.is_open()) {
-    for(int i = 0; i<buff->lines.size(); ++i) {
+    for(int i = 0; i<(int)buff->lines.size(); ++i) {
       f << buff->lines[i] << endl;
     }
     status = "Saved to file!";
