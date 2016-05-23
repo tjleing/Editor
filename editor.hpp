@@ -3,7 +3,7 @@
 
 #include <ncurses.h>
 
-#include "buffer.h"
+#include "buffer.hpp"
 
 class Editor {
     private:

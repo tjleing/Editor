@@ -1,10 +1,10 @@
-#include "buffer.h"
+#include "buffer.hpp"
 
 Buffer::Buffer(){}
 
 string Buffer::remTabs(string line) {
     int tab = line.find('\t');
-    if(tab == line.npos) {
+    if(tab == (int)line.npos) {
         return line;
     }
     else {

@@ -1,5 +1,5 @@
 #include <ncurses.h>
-#include "editor.h"
+#include "editor.hpp"
 
 #define WORLD_WIDTH 50
 #define WORLD_HEIGHT 20

@@ -1,4 +1,4 @@
-#include "editor.h"
+#include "editor.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -100,10 +100,11 @@ void Editor::handleInput(int c) {
     case KEY_BACKSPACE:
       // Backspace
       // TODO: DEAL WITH FACT THAT DELETING OFF THE LEFT COULD LEAD TO SCROLLING LEFT OR THEORETICALLY RIGHT IF IT GOES TO THE PREVIOUS LINE
-      if(x == 0 && y > 0) {
-        x = buff->lines[y-1].length();
+      if(x+wx == 0 && y+wy > 0) {
+        x = buff->lines[y+wy-1].length();
+        // wx guaranteed to be 0
         // bring line down
-        buff->lines[y-1] += buff->lines[y];
+        buff->lines[y+wy-1] += buff->lines[y+wy];
         // delete current line
         deleteLine();
         moveUp();
