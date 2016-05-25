@@ -110,34 +110,34 @@ void Editor::handleInput(int c) {
       }
       else {
         // remove a character
-        buff->lines[y].erase(--x, 1);
+        buff->lines[y+wy].erase(--x+wx, 1);
       }
       scrollToCorrect();
       break;
     case KEY_DC:
       // Delete
-      if(x == (int)buff->lines[y].length() && y != (int)buff->lines.size() - 1) {
+      if(x+wx == (int)buff->lines[y+wy].length() && y+wy != (int)buff->lines.size() - 1) {
         // bring line down
-        buff->lines[y] += buff->lines[y+1];
+        buff->lines[y+wy] += buff->lines[y+wy+1];
         // delete the line
-        deleteLine(y+1);
+        deleteLine(y+wy+1);
       }
       else {
-        buff->lines[y].erase(x, 1);
+        buff->lines[y+wy].erase(x+wx, 1);
       }
       break;
     case KEY_ENTER:
     case 10:
       // The enter key
       // bring the rest of the line down
-      if(x < (int)buff->lines[y].length()) {
+      if(x+wx < (int)buff->lines[y+wy].length()) {
         // rest of the line on a new line
-        buff->insertLine(buff->lines[y].substr(x, buff->lines[y].length() - x), y + 1);
+        buff->insertLine(buff->lines[y+wy].substr(x+wx, buff->lines[y+wy].length() - x-wx), y+wy + 1);
         // remove that part of the line
-        buff->lines[y].erase(x, buff->lines[y].length() - x);
+        buff->lines[y+wy].erase(x+wx, buff->lines[y+wx].length() - x-wx);
       }
       else {
-        buff->insertLine("", y+1);
+        buff->insertLine("", y+wy+1);
       }
       x = 0;
       moveDown();
