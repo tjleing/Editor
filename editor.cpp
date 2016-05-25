@@ -284,3 +284,4 @@ void Editor::saveFile() {
   }
   f.close();
 }
+
