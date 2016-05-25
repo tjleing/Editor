@@ -99,7 +99,6 @@ void Editor::handleInput(int c) {
     case 127:
     case KEY_BACKSPACE:
       // Backspace
-      // TODO: DEAL WITH FACT THAT DELETING OFF THE LEFT COULD LEAD TO SCROLLING LEFT OR THEORETICALLY RIGHT IF IT GOES TO THE PREVIOUS LINE
       if(x+wx == 0 && y+wy > 0) {
         x = buff->lines[y+wy-1].length();
         // wx guaranteed to be 0
@@ -113,6 +112,7 @@ void Editor::handleInput(int c) {
         // remove a character
         buff->lines[y].erase(--x, 1);
       }
+      scrollToCorrect();
       break;
     case KEY_DC:
       // Delete
@@ -148,14 +148,15 @@ void Editor::handleInput(int c) {
     case KEY_CATAB:
     case 9:
       // Tab key
-      buff->lines[y].insert(x, 4, ' ');
+      buff->lines[y+wy].insert(x, 4, ' ');
       x+=4;
       break;
 
     default:
       // any other character
-      buff->lines[y].insert(x, 1, char(c));
+      buff->lines[y+wy].insert(x+wx, 1, char(c));
       x++;
+      scrollToCorrect();
       break;
     }
     break;
@@ -243,6 +244,13 @@ void Editor::printBuff() {
     clrtoeol();
   }
   move(y, x);
+}
+
+void Editor::scrollToCorrect() {
+  while(x < 0) {scrollLeft();}
+  while(x > COLS) {scrollRight();}
+  while(y < 0) {scrollUp();}
+  while(y > LINES) {scrollDown();}
 }
 
 void Editor::printStatusLine() {
