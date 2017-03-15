@@ -1,4 +1,6 @@
 all:
-	g++ -g -lncurses -std=c++11 -Wall -o main main.cpp buffer.cpp editor.cpp
+	g++ -g -std=c++11 -Wall -o main main.cpp buffer.cpp editor.cpp -lncurses
 b:
-	$(CXX) -g -lncurses -std=c++11 -Wall -o main main.cpp buffer.cpp editor.cpp
+	$(CXX) -g -std=c++11 -Wall -o main main.cpp buffer.cpp editor.cpp -lncurses
+clean:
+	rm main
