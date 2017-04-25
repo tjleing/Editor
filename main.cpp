@@ -9,6 +9,10 @@ void ncurses_setup() {
     noecho();
     raw();
     keypad(stdscr, TRUE);
+    start_color();
+    init_color(COLOR_RED, 684, 527, 1000);
+    // 175, 135, 255
+    init_pair(1, COLOR_BLACK, COLOR_RED);
 }
 
 int main(int argc, char* argv[]) {

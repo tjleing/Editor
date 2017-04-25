@@ -4,12 +4,14 @@
 #include <ncurses.h>
 
 #include "buffer.hpp"
+// #include "inputhandler.hpp"
 
 class Editor {
 private:
   int wx, wy, x, y; // current window position in the file and on screen
   char mode;
   Buffer* buff;
+  // InputHandler handler;
   string status, filename;
 
   void moveUp();
